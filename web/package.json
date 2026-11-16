@@ -1,0 +1,6 @@
+{
+  "name": "living-voxel-world",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node tests/sim.test.mjs" }
+}

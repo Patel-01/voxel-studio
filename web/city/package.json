@@ -1,0 +1,1 @@
+{ "name": "miniature-city", "private": true, "type": "module", "scripts": { "test": "node tests/city.test.mjs" } }

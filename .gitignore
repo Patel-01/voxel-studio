@@ -1,0 +1,14 @@
+.venv/
+.venv-tts/
+__pycache__/
+*.pyc
+
+# video pipeline: generated or downloaded, rebuild locally
+video/frames/
+video/build/
+video/check/
+video/tts/
+video/music/
+video/*.mp4
+
+out/params.json

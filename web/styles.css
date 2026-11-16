@@ -1,0 +1,85 @@
+/* Almanac card: warm paper, ink, one terracotta accent. System fonts only (works offline). */
+:root {
+  --paper: #f4ecdc;
+  --paper-edge: #d9ccb2;
+  --ink: #2c2620;
+  --ink-soft: #6f6557;
+  --accent: #b9472f;
+  --accent-ink: #fff7ec;
+  --track: #dccfb6;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: #0d1326; color: var(--ink); font: 13px/1.4 var(--sans); overflow: hidden; }
+
+#scene { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+
+#overlay {
+  position: fixed; inset: 0; display: grid; place-content: center; justify-items: center; gap: 14px;
+  background: #0d1326; color: #e8dfcc; text-align: center; padding: 24px; z-index: 5;
+}
+#overlay[hidden] { display: none; }
+#overlay p { margin: 0; font: 16px var(--serif); max-width: 34ch; }
+#overlay strong { display: block; font-size: 19px; margin-bottom: 6px; }
+#overlay.error .spinner { display: none; }
+.spinner { width: 22px; height: 22px; background: #e9a26b; animation: turn 1.2s steps(4) infinite; }
+@keyframes turn { to { transform: rotate(360deg); } }
+
+#panel {
+  position: fixed; left: 16px; bottom: 16px; width: 264px; padding: 14px 14px 10px;
+  background: var(--paper); border: 1px solid var(--paper-edge); border-radius: 6px;
+  box-shadow: 0 1px 0 #fff8 inset, 0 10px 30px #0006;
+  opacity: 0; transform: translateY(8px); transition: opacity .5s ease .2s, transform .5s ease .2s;
+}
+.ready #panel { opacity: 1; transform: none; }
+
+header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.clock { display: grid; }
+#clock-time { font: 600 30px/1 var(--serif); font-variant-numeric: tabular-nums; letter-spacing: .01em; }
+#clock-meta { color: var(--ink-soft); margin-top: 4px; font-size: 12px; }
+
+button {
+  font: inherit; color: var(--ink); background: transparent; border: 1px solid var(--paper-edge);
+  border-radius: 4px; padding: 6px 8px; cursor: pointer; transition: background .15s, color .15s, border-color .15s;
+}
+button:hover { border-color: var(--ink-soft); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button[aria-pressed="true"], .primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.primary[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.ghost { border-color: transparent; color: var(--ink-soft); padding: 2px 4px; font-size: 12px; }
+
+.transport { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 6px; margin-top: 12px; }
+
+#controls { margin-top: 4px; }
+.collapsed #controls { display: none; }
+.field {
+  display: flex; justify-content: space-between; align-items: baseline; margin: 12px 0 5px;
+  font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft);
+}
+.field output { font: 13px var(--serif); letter-spacing: 0; color: var(--ink); font-variant-numeric: tabular-nums; }
+.check { display: flex; align-items: center; gap: 5px; letter-spacing: 0; text-transform: none; font-size: 12px; cursor: pointer; }
+.check input { accent-color: var(--accent); margin: 0; }
+
+input[type="range"] { width: 100%; margin: 0; height: 18px; background: transparent; accent-color: var(--accent); cursor: pointer; }
+
+.segmented { display: flex; gap: 0; }
+.segmented button { flex: 1; border-radius: 0; margin-left: -1px; padding: 6px 0; font-size: 12px; }
+.segmented button:first-child { margin-left: 0; border-radius: 4px 0 0 4px; }
+.segmented button:last-child { border-radius: 0 4px 4px 0; }
+.segmented button[aria-pressed="true"] { position: relative; z-index: 1; }
+
+.hint { margin: 12px 0 0; color: var(--ink-soft); font-size: 11px; }
+#note { margin: 6px 0 0; min-height: 16px; font-size: 12px; color: var(--accent); }
+
+@media (max-width: 640px) {
+  #panel { left: 8px; right: 8px; bottom: 8px; width: auto; padding: 10px 12px 6px; }
+  #clock-time { font-size: 24px; }
+  .hint { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #panel { transition: none; }
+  .spinner { animation: none; }
+}

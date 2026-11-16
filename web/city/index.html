@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Miniature City</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="importmap">
+    { "imports": { "three": "../vendor/three.module.js", "three/addons/controls/OrbitControls.js": "../vendor/OrbitControls.js" } }
+  </script>
+</head>
+<body>
+  <canvas id="scene" aria-label="Isometric island where you build a small city"></canvas>
+
+  <div id="overlay" role="status"><div class="spinner" aria-hidden="true"></div><p id="overlay-text">Surveying the island…</p></div>
+
+  <header id="topbar">
+    <div class="group stats">
+      <div class="stat wide"><span class="label">Funds</span><span id="stat-funds" class="value">$0</span><span id="stat-net" class="sub">+$0/day</span></div>
+      <div class="stat"><span class="label">People</span><span id="stat-people" class="value">0/0</span></div>
+      <div class="stat"><span class="label">Happy</span><span id="stat-happy" class="value">60%</span><span class="meter"><i id="happy-bar"></i></span></div>
+      <div class="stat"><span class="label">Jobs</span><span id="stat-jobs" class="value">0/0</span></div>
+      <div class="stat"><span class="label">Power</span><span id="stat-power" class="value">0/0</span></div>
+    </div>
+    <div class="group controls">
+      <button id="pause" aria-pressed="false">Pause</button>
+      <div class="seg" role="group" aria-label="Speed">
+        <button data-speed="0">1×</button><button data-speed="1">2×</button><button data-speed="2">4×</button>
+      </div>
+      <button id="reset">Reset</button>
+      <span id="saved" aria-live="polite">Saved</span>
+    </div>
+  </header>
+
+  <p id="advisor" role="status" aria-live="polite"></p>
+  <p id="preview" role="status"></p>
+  <aside id="info" hidden aria-label="Selected building"></aside>
+  <div id="toast" role="alert"></div>
+
+  <footer id="dock">
+    <div class="tools">
+      <button id="tool-select" title="Select and move (V)">Select</button>
+      <button id="tool-rotate" title="Rotate (R)">Rotate</button>
+      <button id="tool-bulldoze" title="Remove buildings (B)">Bulldoze</button>
+    </div>
+    <div id="palette" role="group" aria-label="Buildings"></div>
+  </footer>
+
+  <div id="reset-dialog" hidden role="dialog" aria-modal="true" aria-labelledby="reset-title">
+    <div class="sheet">
+      <h2 id="reset-title">Start over?</h2>
+      <p>This replaces your current city.</p>
+      <div class="actions">
+        <button id="reset-empty" class="primary">Empty island</button>
+        <button id="reset-starter">Starter town</button>
+        <button id="reset-cancel" class="quiet">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

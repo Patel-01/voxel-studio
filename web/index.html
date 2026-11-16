@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Living Voxel World</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three.module.js", "three/addons/controls/OrbitControls.js": "./vendor/OrbitControls.js" } }
+  </script>
+</head>
+<body>
+  <canvas id="scene" aria-label="A small voxel island with weather, seasons and inhabitants"></canvas>
+
+  <div id="overlay" role="status">
+    <div class="spinner" aria-hidden="true"></div>
+    <p id="overlay-text">Growing the island…</p>
+  </div>
+
+  <aside id="panel" aria-label="World controls">
+    <header>
+      <div class="clock">
+        <span id="clock-time">07:15</span>
+        <span id="clock-meta">Day 1 · Spring · Clear</span>
+      </div>
+      <button id="toggle" class="ghost" aria-controls="controls" aria-expanded="true" title="Show or hide controls">Controls</button>
+    </header>
+
+    <div class="transport">
+      <button id="pause" class="primary" aria-pressed="false">Pause</button>
+      <button id="reset">Reset</button>
+      <button id="capture">Capture</button>
+    </div>
+
+    <div id="controls">
+      <label class="field" for="hour"><span>Time of day</span><output id="hour-out">07:15</output></label>
+      <input id="hour" type="range" min="0" max="23.9" step="0.1" value="7.2">
+
+      <label class="field" for="speed"><span>Speed</span><output id="speed-out">1×</output></label>
+      <input id="speed" type="range" min="0" max="6" step="1" value="2">
+
+      <div class="field"><span>Season</span>
+        <label class="check"><input id="cycle" type="checkbox" checked> Cycle</label>
+      </div>
+      <div class="segmented" role="group" aria-label="Season">
+        <button data-season="0">Spring</button><button data-season="1">Summer</button>
+        <button data-season="2">Autumn</button><button data-season="3">Winter</button>
+      </div>
+
+      <div class="field"><span>Weather</span></div>
+      <div class="segmented" role="group" aria-label="Weather">
+        <button data-weather="auto">Auto</button><button data-weather="clear">Clear</button>
+        <button data-weather="rain">Rain</button><button data-weather="fog">Fog</button>
+        <button data-weather="snow">Snow</button>
+      </div>
+      <p class="hint">Drag to orbit · scroll to zoom · space to pause</p>
+    </div>
+    <p id="note" role="status" aria-live="polite"></p>
+  </aside>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
