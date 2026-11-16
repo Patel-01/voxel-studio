@@ -34,8 +34,9 @@ def main() -> None:
         print("exported", export())
     handler = functools.partial(Handler, directory=str(WEB))
     with http.server.ThreadingHTTPServer(("127.0.0.1", PORT), handler) as server:
-        url = f"http://127.0.0.1:{PORT}/" + ("city/" if "city" in sys.argv else "")
-        print(f"Serving at {url}  (Ctrl+C to stop). Living world: /   Miniature City: /city/")
+        page = "city/" if "city" in sys.argv else "paint/" if "paint" in sys.argv else ""
+        url = f"http://127.0.0.1:{PORT}/" + page
+        print(f"Serving at {url}  (Ctrl+C to stop). Living world: /   Miniature City: /city/   Worldbrush: /paint/")
         if "--no-open" not in sys.argv:
             webbrowser.open(url)
         try:

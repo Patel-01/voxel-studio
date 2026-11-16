@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Worldbrush</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="importmap">
+    { "imports": { "three": "../vendor/three.module.js", "three/addons/controls/OrbitControls.js": "../vendor/OrbitControls.js" } }
+  </script>
+</head>
+<body>
+  <main id="app">
+    <section id="view" aria-label="The world, in 3D">
+      <canvas id="scene"></canvas>
+      <h1 id="title">Worldbrush</h1>
+      <div id="view-tools">
+        <button id="time" type="button" title="Change the time of day (T)">Day</button>
+        <button id="spin" type="button" aria-pressed="true" title="Turn the slow spin on or off">Spin</button>
+      </div>
+      <p id="hint">Paint on the map. The world builds itself.</p>
+      <p id="stats" aria-live="off"></p>
+    </section>
+
+    <section id="panel" aria-label="Map and brushes">
+      <div id="chart">
+        <canvas id="map" aria-label="Map to paint on. Drag to paint with the chosen brush."></canvas>
+      </div>
+      <div id="tools">
+        <div id="brushes" role="radiogroup" aria-label="Brush"></div>
+        <label id="size-row">
+          <span>Size <b id="size-value">3</b></span>
+          <input id="size" type="range" min="1" max="7" step="1" value="3">
+        </label>
+        <div id="actions">
+          <button id="undo" type="button" title="Undo (Ctrl+Z)">Undo</button>
+          <button id="new" type="button" title="Draw a new island">New</button>
+          <button id="clear" type="button" title="Back to open sea">Clear</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

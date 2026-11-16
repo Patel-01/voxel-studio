@@ -1,0 +1,107 @@
+/* Worldbrush — "sea chart": a navy chart table under an open sky. System fonts only. */
+
+:root {
+  --navy: #0e2036;
+  --navy-2: #16304f;
+  --line: rgba(234, 242, 248, 0.2);
+  --chalk: #eaf2f8;
+  --dim: #9db3c8;
+  --buoy: #ff7a45;
+  --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --serif: Georgia, "Times New Roman", serif;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--navy); color: var(--chalk); font: 14px/1.3 system-ui, "Segoe UI", sans-serif; overflow: hidden; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--buoy); outline-offset: 2px; }
+
+#app { height: 100dvh; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 54fr) minmax(0, 46fr); }
+
+/* ---- the 3D view ---- */
+#view { position: relative; overflow: hidden; min-height: 0; }
+.sky { position: absolute; inset: 0; transition: opacity 1.1s ease; }
+#scene { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+#scene:active { cursor: grabbing; }
+
+#title {
+  position: absolute; left: 14px; top: 10px; margin: 0;
+  font: italic 700 22px/1 var(--serif); letter-spacing: 0.01em; color: var(--navy);
+  transition: color 1s;
+}
+#view[data-time="night"] #title, #view[data-time="night"] #stats { color: var(--chalk); }
+#view[data-time="dusk"] #stats { color: var(--chalk); }
+
+#view-tools { position: absolute; right: 10px; top: 8px; display: flex; gap: 6px; }
+#view-tools button {
+  min-width: 56px; height: 34px; padding: 0 12px; border-radius: 17px;
+  border: 1px solid var(--line); background: rgba(14, 32, 54, 0.82); color: var(--chalk);
+  font: 600 11px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase;
+}
+#view-tools button:hover { background: var(--navy-2); }
+#spin[aria-pressed="false"] { color: var(--dim); text-decoration: line-through; }
+
+#hint {
+  position: absolute; left: 50%; bottom: 34px; transform: translateX(-50%); margin: 0; white-space: nowrap;
+  padding: 7px 14px; border-radius: 16px; background: rgba(14, 32, 54, 0.86); color: var(--chalk);
+  font-size: 13px; transition: opacity 0.6s; pointer-events: none;
+}
+#hint.gone { opacity: 0; }
+#stats {
+  position: absolute; left: 0; right: 0; bottom: 8px; margin: 0; text-align: center; white-space: pre;
+  font: 600 11px/1 var(--mono); letter-spacing: 0.04em; color: var(--navy); transition: color 1s; pointer-events: none;
+}
+
+/* ---- the chart table ---- */
+#panel {
+  min-height: 0; display: flex; gap: 10px; padding: 10px;
+  background:
+    linear-gradient(var(--line), var(--line)) top / 100% 1px no-repeat,
+    repeating-linear-gradient(0deg, transparent 0 23px, rgba(234, 242, 248, 0.035) 23px 24px),
+    repeating-linear-gradient(90deg, transparent 0 23px, rgba(234, 242, 248, 0.035) 23px 24px),
+    var(--navy);
+}
+#chart { flex: 0 0 auto; height: min(100%, calc(100vw - 146px)); aspect-ratio: 1; align-self: center; padding: 4px; border: 1px solid var(--line); border-radius: 4px; }
+#map { width: 100%; height: 100%; display: block; border-radius: 2px; touch-action: none; cursor: crosshair; }
+
+#tools { flex: 1 1 112px; min-width: 112px; display: flex; flex-direction: column; gap: 8px; overflow: hidden auto; scrollbar-width: none; }
+#brushes { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.brush {
+  min-width: 0; min-height: 42px; padding: 4px 0 4px; display: grid; justify-items: center; gap: 3px; overflow: hidden;
+  border: 1px solid var(--line); border-radius: 8px; background: transparent;
+  font: 600 8.5px/1 var(--mono); letter-spacing: 0; text-transform: uppercase; color: var(--dim);
+}
+.brush i { width: 19px; height: 19px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.85); }
+.brush:hover { background: var(--navy-2); }
+.brush[aria-checked="true"] { border-color: var(--buoy); background: var(--navy-2); color: var(--chalk); box-shadow: inset 0 0 0 1px var(--buoy); }
+
+#size-row { display: grid; gap: 2px; font: 600 10px/1.2 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); }
+#size-row b { color: var(--chalk); }
+#size { width: 100%; height: 24px; margin: 0; accent-color: var(--buoy); }
+
+#actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: auto; }
+#actions button {
+  min-height: 34px; border: 1px solid var(--line); border-radius: 8px; background: transparent;
+  font: 600 10.5px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase;
+}
+#actions #new { grid-column: 1 / -1; order: -1; background: var(--buoy); border-color: var(--buoy); color: #1c0d05; }
+#actions button:hover { background: var(--navy-2); }
+#actions #new:hover { background: #ff905f; }
+#actions button:disabled { opacity: 0.4; cursor: default; }
+
+/* Wide screens: world on the left, chart table on the right. */
+@media (min-aspect-ratio: 1/1) {
+  #app { grid-template-rows: none; grid-template-columns: minmax(0, 1fr) clamp(320px, 34vw, 460px); }
+  #panel { flex-direction: column; padding: 14px; gap: 12px; background-position: left; background-size: 1px 100%, auto, auto, auto; }
+  #chart { height: auto; width: min(100%, calc(100vh - 240px)); }
+  #tools { flex: 0 0 auto; overflow: visible; }
+  #brushes { grid-template-columns: repeat(6, 1fr); }
+  #actions { grid-template-columns: repeat(3, 1fr); margin-top: 4px; }
+  #actions #new { grid-column: auto; order: 0; }
+  .brush { min-height: 50px; font-size: 9.5px; }
+  .brush i { width: 22px; height: 22px; }
+  #title { font-size: 28px; left: 20px; top: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) { .sky, #title, #stats, #hint { transition: none; } }

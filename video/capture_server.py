@@ -24,6 +24,22 @@ class Handler(http.server.BaseHTTPRequestHandler):
         self._cors()
         self.end_headers()
 
+    def do_GET(self) -> None:
+        """Serves the in-page recording scripts (video/*_capture.js) so the page can import them."""
+        match = re.fullmatch(r"/([a-z_]+_capture\.js)", self.path.split("?")[0])
+        script = Path(__file__).parent / match.group(1) if match else None
+        if not script or not script.exists():
+            self.send_response(404)
+            self.end_headers()
+            return
+        body = script.read_bytes()
+        self.send_response(200)
+        self.send_header("Content-Type", "text/javascript")
+        self.send_header("Cache-Control", "no-store")
+        self._cors()
+        self.end_headers()
+        self.wfile.write(body)
+
     def do_POST(self) -> None:
         match = re.fullmatch(r"/f/([a-z_]+)/(\d+)\.(jpg|json)", self.path)
         if not match:
