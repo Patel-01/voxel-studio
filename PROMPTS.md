@@ -130,3 +130,22 @@ publish); those answers are not listed.
 ## 9. Worldbrush (`web/paint/`)
 
 > lets build something more impressive with that for next short
+
+## 10. Into the Blue (`web/ocean/`)
+
+A different kind of round: this one was built in a Claude chat (as an artifact), not in Claude Code, and the prompts are not ours.
+They come from a carousel by **godofprompt** on Instagram, which lists 7 prompts word for word:
+https://www.instagram.com/p/Df0B76nCNsY/ . All credit for the prompts goes to them; read them there.
+
+What the 7 steps do, in short:
+
+1. **Plan the dive.** Ask for an art-director plan: layout (kelp forest, reef, sand clearing, whale skeleton, shipwreck), hex colours, light, 10 kinds of sea life and a camera path, light enough for a phone.
+2. **Build the seabed.** One HTML file with three.js from a CDN, everything made in code (no model or image files), swaying kelp, sun rays, fog, particles, WASD + drag controls.
+3. **Add the sea life.** Fish schools that scatter when you get close, manta rays, reef fish, a sea turtle, then ask which animal looks least real.
+4. **Add a place to find.** The sunken ship with light through the broken deck, bubbles and a glowing path to it.
+5. **Make it look real.** Send a screenshot back and fix the five most fake-looking things; 2 or 3 rounds of this.
+6. **Add sound and a tour.** Ocean sound made in code (hum, bubbles, a distant whale) and a 30-second guided dive behind a "Start dive" button.
+7. **Sell it to a client.** A short outreach message template (not part of the code).
+
+The result is `web/ocean/index.html`, 73,803 bytes. The page also exposes `window.__ocean.seek(seconds)` to jump the tour to a time for recording.
+`video/ocean_links_card.py` makes the "Links are below" end card used for the YouTube and X cut.

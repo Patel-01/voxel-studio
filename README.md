@@ -13,6 +13,7 @@ It started with two GitHub links, [ManimGX](https://github.com/academa-labs/mani
 | 3 | A living world in the browser: day and night, seasons, weather, birds, villagers | `web/` |
 | 4 | Miniature City, a playable city builder with roads, power, jobs and saving | `web/city/` |
 | 5 | Worldbrush, paint a flat map and a 3D voxel world rises from it as you paint | `web/paint/` |
+| 6 | Into the Blue, a whole 3D ocean (kelp, reef, whale skeleton, shipwreck, sea life, sound) in one 74 KB HTML file, built with Claude from 7 prompts by [godofprompt](https://www.instagram.com/p/Df0B76nCNsY/) | `web/ocean/` |
 | + | The scripts that made the short video about all of this | `video/` |
 
 ![Spring](out/still_spring.png)
@@ -25,9 +26,10 @@ They need only Python 3 to serve the files; there is no build step.
 python live.py          # the living world
 python live.py city     # Miniature City
 python live.py paint    # Worldbrush
+python live.py ocean    # Into the Blue
 ```
 
-Then open `http://127.0.0.1:8137/` (or `/city/`, `/paint/`). Three.js is vendored in `web/vendor/`.
+Then open `http://127.0.0.1:8137/` (or `/city/`, `/paint/`, `/ocean/`). Three.js is vendored in `web/vendor/`; the ocean is a single self-contained file that loads three.js r128 from cdnjs.
 
 Miniature City controls: left-click builds, right-drag rotates the camera, middle-drag pans, scroll zooms.
 Keys: R rotate, B bulldoze, V select, Esc cancel, Space pause. The city saves in your browser.
