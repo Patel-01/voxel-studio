@@ -149,3 +149,55 @@ What the 7 steps do, in short:
 
 The result is `web/ocean/index.html`, 73,803 bytes. The page also exposes `window.__ocean.seek(seconds)` to jump the tour to a time for recording.
 `video/ocean_links_card.py` makes the "Links are below" end card used for the YouTube and X cut.
+
+## 11. Glass Tower (`web/glass/`)
+
+Back in Claude Code. One prompt built the whole engine; Claude Code then tested it in Chrome and tuned it on its own (darker sky and ground, the sky baked into a texture and automatic resolution scaling so it holds 60 FPS on an integrated GPU). No other prompts went into the code.
+
+> Create a single self-contained file named `index.html` (strictly under 60 KB total, zero external dependencies, zero CDN links, zero Three.js/Cannon.js) that implements a real-time 60 FPS 3D Glass Skyscraper Physics Destruction Engine using raw WebGL2 and custom JavaScript rigid-body physics.
+>
+> ### 1. Visual Aesthetic & Lighting (Optimized for Vertical 9:16 Screen Recording)
+> - **Viewport:** Full-bleed `100vw` x `100vh` canvas, crisp high-DPI scaling (`devicePixelRatio` capped at 2 for rock-solid 60 FPS).
+> - **Sky & Environment:** Warm golden-hour sunset gradient sky shader with a glowing low-angle sun disc and subtle atmospheric horizon haze, contrasted against a sleek, dark reflective obsidian ground plane with subtle grid reflections.
+> - **Glass Material Shader (Custom GLSL):**
+>   - Render all glass panels and shards using WebGL2 instanced rendering (`drawElementsInstanced`) for maximum performance.
+>   - Implement Fresnel rim highlights, specular sun glints, sky-to-ground environment reflection mapping in the fragment shader, and translucent cyan-tinted architectural glass shading (`alpha` blending with depth sorting or dual-pass back/front face rendering so overlapping glass shards look crystalline and layered).
+> - **Camera System:**
+>   - Smooth orbital camera slowly circling the skyscraper by default.
+>   - Dynamic impact camera shake with exponential decay when meteors or boulders strike the tower.
+>   - Mouse/touch drag to orbit, scroll wheel to zoom.
+>
+> ### 2. Structural Skyscraper & Fracture Physics
+> - **The Tower:** Build a 14-story architectural glass skyscraper resting on a concrete core plinth. Each floor consists of an outer ring of interlocking tempered glass panels supported by thin dark metallic structural mullions.
+> - **Fracture & Shatter Mechanics:**
+>   - When a projectile impacts a glass panel above a velocity threshold, destroy that panel and dynamically spawn 6 to 10 sharp, irregular triangular/polygonal glass shards at its world position, inheriting impact momentum plus radial outward scatter velocity and random angular spin (`vec3` angular velocity).
+>   - Structural integrity cascade: if more than 65% of panels on a floor are destroyed, upper unsupported panels lose structural lock and collapse downward under gravity.
+> - **Physics & Collisions:**
+>   - Fixed-timestep physics accumulator (`dt = 1/60`) with gravity, air drag, ground-plane bounce with restitution + friction, and simple spatial-grid or bounding-sphere collision against projectiles.
+>   - Cap active dynamic shards at 1,800 using a ring-buffer pool so spawning 50+ boulders never drops below 60 FPS.
+>
+> ### 3. Procedural Web Audio (Zero External Audio Files)
+> - Synthesize crisp crystalline glass-shatter sound effects using the Web Audio API (filtered white-noise bursts + high-frequency metallic sine/triangle chimes pitched randomly per impact) triggered on user interaction.
+>
+> ### 4. Interactive Controls & Minimal HUD (Reel-Ready)
+> - **Click / Tap anywhere on the 3D scene:** Raycast from camera into the tower and launch a glowing molten meteor/boulder from the camera's perspective toward the clicked point with a fiery particle trail.
+> - **Top-Left Minimal HUD (monospace, translucent dark pill):**
+>   - Live readout: `FILE: [exact byte size] KB | SHARDS: [count] | [FPS] FPS`
+> - **Bottom-Center Compact Control Bar (auto-hides after 4 seconds of inactivity, reappears on mouse move, plus keyboard shortcuts):**
+>   - `[SPACE]` Launch Heavy Meteor
+>   - `[B]` Stress Test (Spawn 50 Boulders Swarm)
+>   - `[S]` Toggle Slow-Motion (0.2x time dilation for cinematic shatter shots)
+>   - `[R]` Reset Tower (smoothly reassembles/resets the tower cleanly for seamless video loops)
+>
+> ### 5. Verification Step
+> After generating `index.html`, check its exact byte size in the terminal (`wc -c index.html`) to confirm it is strictly under 61,440 bytes (60 KB), and verify there are zero WebGL shader compilation warnings or console errors.
+
+The result is `web/glass/index.html`, 35,806 bytes (it prints its own size in the HUD).
+
+Then the short:
+
+> OSM now record it to showcase on instagram reel
+
+> upload it to instagram when you think its good time
+
+`video/glass_capture.js` steps the engine frame by frame (`window.__manual`) and logs every sound call, `video/make_glass.py` adds the captions and `video/glass_voice.py` adds the voice, the music and the glass sounds, re-synthesised from that log with the app's own recipe.

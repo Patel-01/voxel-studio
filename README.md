@@ -14,6 +14,7 @@ It started with two GitHub links, [ManimGX](https://github.com/academa-labs/mani
 | 4 | Miniature City, a playable city builder with roads, power, jobs and saving | `web/city/` |
 | 5 | Worldbrush, paint a flat map and a 3D voxel world rises from it as you paint | `web/paint/` |
 | 6 | Into the Blue, a whole 3D ocean (kelp, reef, whale skeleton, shipwreck, sea life, sound) in one 74 KB HTML file, built with Claude from 7 prompts by [godofprompt](https://www.instagram.com/p/Df0B76nCNsY/) | `web/ocean/` |
+| 7 | Glass Tower: throw meteors at a glass skyscraper, every pane shatters into real physics shards, floors collapse, press R to rebuild. One 35 KB HTML file, raw WebGL2, no libraries, built by Claude Code from one prompt | `web/glass/` |
 | + | The scripts that made the short video about all of this | `video/` |
 
 ![Spring](out/still_spring.png)
@@ -27,9 +28,10 @@ python live.py          # the living world
 python live.py city     # Miniature City
 python live.py paint    # Worldbrush
 python live.py ocean    # Into the Blue
+python live.py glass    # Glass Tower
 ```
 
-Then open `http://127.0.0.1:8137/` (or `/city/`, `/paint/`, `/ocean/`). Three.js is vendored in `web/vendor/`; the ocean is a single self-contained file that loads three.js r128 from cdnjs.
+Then open `http://127.0.0.1:8137/` (or `/city/`, `/paint/`, `/ocean/`, `/glass/`). Three.js is vendored in `web/vendor/`; the ocean is a single self-contained file that loads three.js r128 from cdnjs.
 
 Miniature City controls: left-click builds, right-drag rotates the camera, middle-drag pans, scroll zooms.
 Keys: R rotate, B bulldoze, V select, Esc cancel, Space pause. The city saves in your browser.
